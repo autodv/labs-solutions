@@ -23,3 +23,9 @@ labs-solutions/verify.sh labs        # uses the starter-v1 tag, not your edits
 
 It runs in a temporary directory and takes about five minutes. Add `VERBOSE=1`
 for more detail.
+
+## License
+
+The files in this repository are released under the [MIT License](LICENSE),
+copyright (c) 2026 AutoDV. The lab handouts at <https://autodv.github.io/> are
+licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
