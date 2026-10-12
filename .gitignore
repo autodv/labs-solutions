@@ -1,0 +1,15 @@
+# SymbiYosys work directories
+*_bmc/
+*_prove/
+*_cover/
+*_pdr/
+*_ric3/
+*_suprove/
+# SymbiYosys status databases (one folder per .sby file)
+lab-*/*/status.sqlite
+# EQY work directories
+lab-5/bitops/
+lab-6/tl_ctrl/
+# Generated netlists and logs
+lab-6/tl_ctrl_netlist*.v
+*.log

@@ -1,0 +1,8 @@
+# Lab 6: synthesize tl_ctrl to a generic gate-level netlist.
+#   yosys -m slang -s synth_fsm.ys    writes tl_ctrl_netlist_fsm.v
+# FSM optimization on: Yosys may re-encode or remove the state register.
+read_slang tl_ctrl.sv --top tl_ctrl
+synth -top tl_ctrl -flatten
+opt_clean -purge
+stat
+write_verilog -noattr tl_ctrl_netlist_fsm.v

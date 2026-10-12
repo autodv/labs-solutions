@@ -1,0 +1,18 @@
+# Lab 6, Task 5: Yosys' built-in equivalence flow.
+#   yosys -m slang -s equiv.ys
+read_slang tl_ctrl.sv --top tl_ctrl
+rename tl_ctrl gold
+read_verilog tl_ctrl_netlist.v
+rename tl_ctrl gate
+proc
+opt_clean
+async2sync
+# Pair up signals with the same name in gold and gate as $equiv cells.
+equiv_make gold gate equiv
+hierarchy -top equiv
+# Prove each $equiv cell from its input cone, looking back up to 5 cycles.
+equiv_simple -seq 5
+# Prove the remaining ones together by induction.
+equiv_induct -seq 5
+# Fail the script if anything is left unproven.
+equiv_status -assert

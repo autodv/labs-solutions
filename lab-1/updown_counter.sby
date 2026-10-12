@@ -1,0 +1,27 @@
+# SymbiYosys configuration for Lab 1.
+#   sby -f updown_counter.sby bmc     bounded model check, 20 cycles
+#   sby -f updown_counter.sby cover   find traces that reach each cover
+#   sby -f updown_counter.sby prove   unbounded proof (k-induction)
+[tasks]
+bmc
+cover
+prove
+
+[options]
+bmc:   mode bmc
+bmc:   depth 20
+cover: mode cover
+cover: depth 30
+prove: mode prove
+
+[engines]
+smtbmc yices
+
+[script]
+plugin -i slang
+read_slang updown_counter.sv fv_updown_counter.sv --top fv_updown_counter
+prep -top fv_updown_counter
+
+[files]
+updown_counter.sv
+fv_updown_counter.sv

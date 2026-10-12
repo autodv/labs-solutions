@@ -1,0 +1,16 @@
+# Lab 5, Task 5: equivalence by hand - the check EQY automates.
+#   yosys -m slang -s miter.ys
+read_slang bitops_gold.sv --top bitops
+rename bitops gold
+read_slang bitops_gate.sv --top bitops
+rename bitops gate
+# (not 'prep': without -top it keeps a single top module and deletes the other)
+proc
+opt_clean
+# A miter: both designs side by side on the same inputs, plus an assertion
+# that every pair of outputs is equal.
+miter -equiv -flatten -make_assert gold gate miter
+hierarchy -top miter
+# Both designs reset to zero, so start from the all-zero state and prove the
+# assertion for every cycle by temporal induction.
+sat -verify -prove-asserts -set-init-zero -tempinduct -show-inputs -show-outputs miter

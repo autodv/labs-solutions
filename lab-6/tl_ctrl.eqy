@@ -1,0 +1,24 @@
+# EQY configuration for Lab 6: RTL (gold) vs synthesized netlist (gate).
+#   eqy -f tl_ctrl.eqy
+# For the FSM-optimized netlist (Task 3), change the read_verilog file name.
+
+[gold]
+plugin -i slang
+read_slang tl_ctrl.sv --top tl_ctrl
+prep -top tl_ctrl
+
+[gate]
+read_verilog tl_ctrl_netlist.v
+prep -top tl_ctrl
+
+# Synthesis reused decoded outputs (side_light, main_light) inside the
+# next-state logic of state and timer. Each matched net is a cut point, so
+# proved separately those partitions see the outputs as free inputs and fail.
+# Grouping the four nets proves them together, as one sequential problem.
+[collect *]
+group /^(state|timer|main_light|side_light)$/
+
+[strategy sby]
+use sby
+depth 4
+engine smtbmc bitwuzla

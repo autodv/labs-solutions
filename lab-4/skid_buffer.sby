@@ -1,0 +1,38 @@
+# SymbiYosys configuration for Lab 4.
+#   sby -f skid_buffer.sby bmc            bounded model check, 20 cycles
+#   sby -f skid_buffer.sby prove          unbounded proof, k-induction (smtbmc yices)
+#   sby -f skid_buffer.sby cover          reachability of the covers
+#   sby -f skid_buffer.sby pdr ric3 suprove    same proof with IC3/PDR-style engines
+# Data width for the abstraction experiment (Task 6): change -G WIDTH=8 below.
+[tasks]
+bmc
+prove
+cover
+pdr     prove_engines
+ric3    prove_engines
+suprove prove_engines
+
+[options]
+bmc:           mode bmc
+bmc:           depth 20
+prove:         mode prove
+prove_engines: mode prove
+cover:         mode cover
+cover:         depth 20
+
+[engines]
+bmc:     smtbmc yices
+prove:   smtbmc yices
+cover:   smtbmc yices
+pdr:     abc pdr
+ric3:    aiger rIC3
+suprove: aiger suprove
+
+[script]
+plugin -i slang
+read_slang skid_buffer.sv fv_skid_buffer.sv --top fv_skid_buffer -G WIDTH=8
+prep -top fv_skid_buffer
+
+[files]
+skid_buffer.sv
+fv_skid_buffer.sv

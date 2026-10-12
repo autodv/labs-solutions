@@ -1,0 +1,17 @@
+# EQY configuration for Lab 5: golden RTL vs refactored RTL.
+#   eqy -f bitops.eqy        (add -j 4 to run partitions in parallel)
+
+[gold]
+plugin -i slang
+read_slang bitops_gold.sv --top bitops
+prep -top bitops
+
+[gate]
+plugin -i slang
+read_slang bitops_gate.sv --top bitops
+prep -top bitops
+
+[strategy sby]
+use sby
+depth 2
+engine smtbmc bitwuzla

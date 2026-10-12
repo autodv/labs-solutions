@@ -1,0 +1,8 @@
+# Lab 6: synthesize tl_ctrl to a generic gate-level netlist.
+#   yosys -m slang -s synth.ys        writes tl_ctrl_netlist.v
+# -nofsm keeps the state register as written in the RTL (Task 3 removes it).
+read_slang tl_ctrl.sv --top tl_ctrl
+synth -top tl_ctrl -flatten -nofsm
+opt_clean -purge
+stat
+write_verilog -noattr tl_ctrl_netlist.v

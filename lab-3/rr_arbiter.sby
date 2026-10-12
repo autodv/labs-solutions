@@ -1,0 +1,27 @@
+# SymbiYosys configuration for Lab 3.
+#   sby -f rr_arbiter.sby bmc     bounded model check, 20 cycles
+#   sby -f rr_arbiter.sby prove   unbounded proof (k-induction)
+#   sby -f rr_arbiter.sby cover   reachability of the covers
+[tasks]
+bmc
+prove
+cover
+
+[options]
+bmc:   mode bmc
+bmc:   depth 20
+prove: mode prove
+cover: mode cover
+cover: depth 20
+
+[engines]
+smtbmc yices
+
+[script]
+plugin -i slang
+read_slang rr_arbiter.sv fv_rr_arbiter.sv --top fv_rr_arbiter
+prep -top fv_rr_arbiter
+
+[files]
+rr_arbiter.sv
+fv_rr_arbiter.sv
